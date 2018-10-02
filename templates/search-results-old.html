@@ -1,0 +1,398 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block scriptheader %}
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-2156540805916735",
+    enable_page_level_ads: true
+  });
+</script>
+
+<style>
+
+.container {
+  margin-top: 20px;
+}
+.page {
+  display: none;
+}
+.page-active {
+  display: block;
+}
+</style>
+{% endblock %}
+
+<!-- main block part starts here -->	
+{% block main %}
+<main>
+<section>
+<div class="container layout">
+<div class="row searchadd">
+{% csrf_token %}
+ <style>
+      /* Set the size of the div element that contains the map */
+      #map {
+        height: 400px;  /* The height is 400 pixels */
+        width: 100%;  /* The width is the width of the web page */
+       }
+    </style>
+                              
+<div class="col-5">
+ <nav aria-label="Page navigation example">
+                                                    <ul class="pagination justify-content-end">
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                                        </li>
+
+                                                        <li class="page-item"><a  id="page_no" class="page-link" href="#">1</a></li>
+
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="#">Next</a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+
+<div id="datadiv">
+<!--  content goes here -->
+</div>
+
+
+
+ <div><input type="button" name="sendMessage" id="sendMessage" value="Send Message" style="background-color: #fb8f01;border: 0px;border-radius: 3px;color: #fff;padding: 3px 15px;" ></div>
+</div>
+
+<!-- <div class='col-7' >
+<div class="mapouter gmap_canvas searchmap"><iframe style="width:100%;height:100%;" id="gmap_canvas" src="https://maps.google.com/maps?q=naperville&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.crocothemes.net"></a><style>.mapouter{text-align:right;height:500px;width:600px;}.gmap_canvas {overflow:hidden;background:none!important;}</style></div>
+  
+
+<div class="mapouter gmap_canvas searchmap" id="mapDiv">
+	<div id="map" style="width:100%;height:100%;" >
+		map should be in this page
+	</div>
+</div> 
+</div>  -->
+ 
+<div class='col-7' >
+<div id="map"></div>
+</div>
+</div>
+</div>
+
+
+</section>   
+
+    <!--==========================
+      Contact Section
+    ============================-->
+<!--     <section id="contact">
+
+      <div class="container wow fadeInUp">
+        <div class="row justify-content-center">
+
+          <div class="col-lg-4 col-md-6">
+
+            <div class="info">
+              <div>
+                <h3> Get in Touch </h3>
+                PetJibe is focused in building an engaged pet community.We want to help pet parents with pet care, pet grooming, pet health, dog trainer, organic pet food and in many more areas.Thank you for using PetJibe! Please complete the form, so we an provide quick and efficient service. If this is an urgent matter please contact Customer Support at <br> 630 791 3016 
+              </div>
+
+            </div>
+
+        <div class="social-links" style= "margin-top:30px";
+">
+          <a href="https://twitter.com/PetJibe" class="twitter"><i class="fa fa-twitter"></i></a>
+          <a href="https://www.facebook.com/PetJibe/" class="facebook"><i class="fa fa-facebook"></i></a>
+          <a href="https://www.instagram.com/petjibe_petcommunity/" class="instagram"><i class="fa fa-instagram"></i></a>
+          <a href="https://www.youtube.com/channel/UCRXENBvNNlHjGzCoYOmhVHA?disable_polymer=true" class="youtube"><i class="fa fa-youtube"></i></a>
+            </div>
+
+        </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="form">
+              <div id="sendmessage">Your message has been sent. Thank you!</div>
+              <div id="errormessage"></div>
+              <form action="" method="post" role="form" class="contactForm">
+                <div class="form-group">
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Email" data-rule="email" data-msg="Please enter a valid email" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                  <div class="validation"></div>
+                </div>
+                <div class="text-center"><button type="submit">Send Message</button></div>
+              </form>
+            </div>
+          </div>		
+                            
+        </div>
+		
+		
+		
+      </div>
+    </section> --><!-- #contact -->
+
+  </main>
+{% endblock %}
+<!-- end here -->
+ 
+<!-- block script -->
+{% block script %}
+<script type="text/javascript">
+	//================ variable initialization
+	var page_no=1;
+	var data_list=null;
+	var data_len=null;
+	var clat=null;
+	var clong=null; 
+	window.locations=[];
+	window.markers = [];
+	var map;
+	var temp_marker=[];
+	
+	{% if clat %}
+	clat = {{clat}};
+	{% endif %}
+	
+	{% if clong %}
+	clong = {{clong}};
+	{% endif %}
+	
+	//===========Google Map
+
+	// Initialize and add the map
+	function initMap() {
+		// The location of Uluru
+		var uluru = {lat: clat, lng: clong};
+		// The map, centered at Uluru
+ 		map= new google.maps.Map(
+		document.getElementById('map'), {zoom: 4, center: uluru});
+		// The marker, positioned at Uluru
+		//var marker = new google.maps.Marker({position: uluru, map: map});
+		/* var bounds = new google.maps.LatLngBounds(new google.maps.LatLng(clat, clong));
+
+		window.map.fitBounds(bounds);
+		window.map.setZoom(8); */
+	}
+/* loc=new google.maps.LatLng(22, 88);
+marker1=new google.maps.Marker({
+    map: window.map,
+    
+    position: loc,
+    draggable: true,
+});
+marker1.setMap(null); */
+
+
+
+	$(document).ready(function(e){
+		
+		var html_content = "";
+		$.ajax({
+			type:'POST',
+			url:'/searchresultsview/',
+			data:{},
+			error:function(e){alert('error');},
+			success:function(data){	
+				var html_content="";
+				clat = data['clat'];
+				clong = data['clong'];
+				 data_len = data['data_len'];
+				 data_list = data['neighbour_list'];
+				 
+				if(data_len<10){
+					for(var i=0; i<data_len; i++){
+						var cur_data=data_list[i];
+						 html_content = html_content + "<div><span><input type='checkbox' name='selectuser'></span><label>Name: </label><span class='data_name'>"+cur_data[0]+"</span><br><label>Address: </label><span class='data_addr'>"+cur_data[1]+"<br>"+cur_data[2]+"</span><br><label>Number of pets:</label><span class='total_pet'>"+cur_data[7]+" </span><br><label>Interests : </label> <span class='data_ints'> "+cur_data[6]+"</span><input type='hidden' value='"+cur_data[3]+"' name='email_id' /></div>";  
+						 locations.push([cur_data[4], cur_data[5]]);
+					}
+					$("#datadiv").html(html_content);
+					
+					locations.forEach(function(location,index){						  													
+                        loc=new google.maps.LatLng(location[0], location[1]);
+                        // Create a marker for each place.
+                        window.markers.push(new google.maps.Marker({
+                            map: window.map,
+                            position: loc,
+                            draggable: true,
+                        }));
+
+					});
+					
+				}
+				else if(data_len>10){
+					
+						for(var i=(page_no-1)*10; i<page_no*10; i++){
+							var cur_data=data_list[i];
+							  html_content = html_content + "<div><span><input type='checkbox' name='selectuser'></span><label>Name: </label><span class='data_name'>"+cur_data[0]+"</span><br><label>Address: </label><span class='data_addr'>"+cur_data[1]+"<br>"+cur_data[2]+"</span><br><label>Number of pets:</label><span class='total_pet'>"+cur_data[7]+" </span><br><label>Interests : </label> <span class='data_ints'> "+cur_data[6]+"</span><input type='hidden' value='"+cur_data[3]+"' name='email_id' /></div>";  
+							  locations.push([cur_data[4], cur_data[5]]);
+						}	
+						$("#datadiv").html(html_content);	
+						
+						locations.forEach(function(location,index){						  													
+	                        loc=new google.maps.LatLng(location[0], location[1]);
+	                        // Create a marker for each place.
+	                        window.markers.push(new google.maps.Marker({
+	                            map: window.map,
+	                            position: loc,
+	                            draggable: true,
+	                        }));
+
+						});
+						 
+				}
+				else{}
+				
+				$("#msg").text(data['message']);
+			},
+			headers:{"X-CSRFToken": $('input[name="csrfmiddlewaretoken"]').attr('value')},
+		});
+		
+				  
+		
+		var email_ids = [];
+		$('input[name=selectuser]').on("click",function(e){
+			var selected_user = $(this).val();
+			var selected_user_email = $(this).parent().parent().children().last().val();
+			if(selected_user=="on"){
+				email_ids.push(selected_user_email);
+			}
+			else{
+				email_ids.pop(selected_user_email);
+			}
+		});
+		$("#sendMessage").on("click",function(e){
+			/* var data ={
+					"email_ids":email_ids,
+			}
+			$.ajax({
+				type:'POST',
+				url:'',
+				data:data,
+				error:function(e){alert('error');},
+				success:function(data){//alert('success');		
+					$("#msg").text(data['message']);
+				},
+				headers:{"X-CSRFToken": $('input[name="csrfmiddlewaretoken"]').attr('value')},
+			}); */
+			window.location.href="{% url 'searchMsg' %}";
+		});
+		$('.page-link').on("click",function(e){
+
+		    current=$(e.target);
+		    var html_content
+		    if(current.text()=="Next"){
+		        page_no+=1;
+		        
+		         if(data_len>page_no*10){
+		        	 locations=[]; 
+					for(var i=(page_no-1)*10; i<(page_no*10); i++){
+						
+						var cur_data=data_list[i];
+						html_content = html_content + "<div><span><input type='checkbox' name='selectuser'></span><label>Name: </label><span class='data_name'>"+cur_data[0]+"</span><br><label>Address: </label><span class='data_addr'>"+cur_data[1]+"<br>"+cur_data[2]+"</span><br><label>Number of pets:</label><span class='total_pet'>"+cur_data[7]+" </span><br><label>Interests : </label> <span class='data_ints'>"+cur_data[6]+" </span><input type='hidden' value='"+cur_data[3]+"' name='email_id' /></div>";  
+						
+						locations.push([cur_data[4], cur_data[5]]);
+					}	
+					$("#datadiv").html(html_content);	
+					
+					
+					window.markers.forEach(function(marker) {
+                        marker.setMap(null);
+                    });
+					
+					
+					locations.forEach(function(location,index){						  						
+                        loc=new google.maps.LatLng(location[0], location[1]);
+                        // Create a marker for each place.
+                        window.markers.push(new google.maps.Marker({
+                            map: window.map,
+                            position: loc,
+                            draggable: true,
+                        }));
+
+					});
+				}
+		         else{
+		        	 locations=[];
+		        	 var ln = data_len-(page_no-1)*10;
+		        	 var max_len = (page_no-1)*10+ln;
+		        	 for(var i=(page_no-1)*10; i<max_len; i++){
+							
+							var cur_data=data_list[i];
+							html_content = html_content + "<div><span><input type='checkbox' name='selectuser'></span><label>Name: </label><span class='data_name'>"+cur_data[0]+"</span><br><label>Address: </label><span class='data_addr'>"+cur_data[1]+"<br>"+cur_data[2]+"</span><br><label>Number of pets:</label><span class='total_pet'>"+cur_data[7]+" </span><br><label>Interests : </label> <span class='data_ints'>"+cur_data[6]+" </span><input type='hidden' value='"+cur_data[3]+"' name='email_id' /></div>";  
+							
+							locations.push([cur_data[4], cur_data[5]]);
+						}	
+						$("#datadiv").html(html_content);
+						
+						
+						window.markers.forEach(function(marker) {
+	                        marker.setMap(null);
+	                    });
+						
+						locations.forEach(function(location,index){														
+	                        loc=new google.maps.LatLng(location[0], location[1]);
+	                        // Create a marker for each place.
+	                        window.markers.push(new google.maps.Marker({
+	                            map: window.map,
+	                            position: loc,
+	                            draggable: true,
+	                        }));
+
+						});
+		         }
+            }
+            if(current.text()=="Previous"){
+		        if(page_no>1){
+		            page_no-=1;
+		            locations=[];
+		            for(var i=(page_no-1)*10; i<page_no*10; i++){
+		            	
+						var cur_data=data_list[i];
+						html_content = html_content + "<div><span><input type='checkbox' name='selectuser'></span><label>Name: </label><span class='data_name'>"+cur_data[0]+"</span><br><label>Address: </label><span class='data_addr'>"+cur_data[1]+"<br>"+cur_data[2]+"</span><br><label>Number of pets:</label><span class='total_pet'>"+cur_data[7]+" </span><br><label>Interests : </label> <span class='data_ints'> "+cur_data[6]+"</span><input type='hidden' value='"+cur_data[3]+"' name='email_id' /></div>";  
+						
+						locations.push([cur_data[4], cur_data[5]]);
+					}				
+		            $("#datadiv").html(html_content);
+		           
+		            window.markers.forEach(function(marker) {
+                        marker.setMap(null);
+                    });
+		            
+		            locations.forEach(function(location,index){						  						
+                        loc=new google.maps.LatLng(location[0], location[1]);
+                        // Create a marker for each place.
+                        window.markers.push(new google.maps.Marker({
+                            map: window.map,
+                            position: loc,
+                            draggable: true,
+                        }));
+
+					});
+                }
+                else {
+		            return
+                }
+            }
+            $("#page_no").text(page_no);
+			{#$("#datadiv").html(""); #}
+		});
+	});
+ </script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-zCtduBzt2v0s5ExylOcjmfQEWu4DKgc&callback=initMap">
+</script>
+{% endblock %}

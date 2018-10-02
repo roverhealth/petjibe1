@@ -1,0 +1,6 @@
+*.pyc
+*pycache*
+venv/*
+venv
+*migrations*
+petjibe/__init__.py

@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+<!-- {% load i18n %}
+{% load pinax_messages_tags %} -->
+
+<!-- {% block head_title %}Messages{% endblock %}
+
+{% block body_class %}{{ block.super }} 
+	/ this is from inbox page
+pinax-messages-inbox{% endblock %} -->
+
+{% block main %}
+<!-- <div class="pinax-messages-inbox-container"> -->
+<section>
+	<div class="container layout col-lg-10">
+	<div class="row">
+    <h2 class="with-actions">
+        Inbox
+    </h2>
+    <h6 style="padding-left:70px;">
+        <a class="button" href="{% url "pinax_messages:message_create" %}">
+            <i class="fa fa-envelope-o"></i>
+            New Message
+        </a> 
+    </h6>
+	</div>
+	<div class="row">
+    <div class="col-md-6">
+    {% csrf_token %}
+        {% for thread in threads %}
+            <div class="thread {% if thread|unread:user %}unread{% endif %} panel-group">
+                <!-- <a href="{{thread.get_absolute_url}}"> -->
+                <a href="#" data-url="{{thread.get_absolute_url}}" >
+                	<div style="background-color:#116be0;">
+                    	<div class="participants panel-body">{{ thread.users.all|join:", " }}</div>
+                    </div>
+                    <div>
+                    	<div class="latest-message" style="margin-left:100px;background-color:#b3c9e5">
+                        	<p class="subject">{{ thread.subject }}</p>
+                        	<p class="content">{{ thread.latest_message.content }}</p>
+                    	</div>
+                    </div>
+                </a>
+            </div>
+        {% empty %}
+        	
+            <div class="no-messages">You have no messages.</div>
+        {% endfor %}
+    </div>
+    <div class="col-md-6" id="thread_msg">
+        <input type='text' name='msgdata' class='msgdata' />
+        <button type='submit' id='msgsend' style="display:None;">Send Msg</button>
+    </div>
+</div>
+	</div>
+</section>
+{% endblock %}
+{% block script %}
+<style>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</style>
+
+<script type="text/javascript">
+	$(document).ready(function(e){
+		$("a").on("click",function(event){
+			var thread_link = $(this).attr("data-url");
+			var thread_id = thread_link.split("/")[3];
+			var data = {
+					"thread_id":thread_id,
+			}
+			$.ajax({
+				type:"POST",
+				url:"/msgpage/",
+				data:JSON.stringify(data),
+				error:function(e){alert('error');},
+				success:function(response){
+					alert(response["thread_list"]);
+					var html_content = "";
+					var data_len = response["thread_list"].length;
+					for(var i=0;i<data_len;i++){
+						html_content +="<div class='message' style='margin-left:100px;background-color:#b3c9e5'><p class='subject'></p>";
+						html_content += "<p class='content'>"+response["thread_list"][i][0]+"</p><p class='sent_at'>"+response["thread_list"][i][4]+"</p>";
+						html_content += "</div>";
+					}
+					
+					$("#thread_msg").append(html_content);
+					$("#msgsend").show();
+				},
+				dataType:'json',
+				contentType:'application/json',
+				headers:{"X-CSRFToken": $('input[name="csrfmiddlewaretoken"]').attr('value')},
+			});
+		});	
+		
+		
+	//============ sending message thread
+		$("#msgsend").on("click",function(e){
+			e.preventDefault();
+			var msg = $("#msgsend").parent().find(".msgdata").val();
+			var data={
+					"msg":msg,
+			}
+			$.ajax({
+				type:"POST",
+				url:"/replymsgthread/",
+				data:JSON.stringify(data),
+				error:function(e){alert('error');},
+				success:function(response){
+					window.location.href = "{% url 'pinax_messages:inbox' %}";
+				},
+				dataType:'json',
+				contentType:'application/json',
+				headers:{"X-CSRFToken": $('input[name="csrfmiddlewaretoken"]').attr('value')},
+			});
+		});
+		
+	});
+</script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+
+<!-- {% load i18n %}
+{% load pinax_messages_tags %} -->
+
+<!-- {% block head_title %}Messages{% endblock %}
+
+{% block body_class %}{{ block.super }} 
+	/ this is from inbox page
+pinax-messages-inbox{% endblock %} -->
+
+{% block main %}
+<!-- <div class="pinax-messages-inbox-container"> -->
+<section>
+	<div class="container layout col-lg-10">
+	<div>
+    <h2 class="with-actions">
+        Inbox
+    </h2>
+    <p>
+        <a class="button" href="{% url "pinax_messages:message_create" %}">
+            <i class="fa fa-envelope-o"></i>
+            New Message
+        </a>
+    </p>
+	</div>
+    <section class="mailbox">
+        {% for thread in threads %}
+            <div class="thread {% if thread|unread:user %}unread{% endif %} panel-group">
+                <a href="{{thread.get_absolute_url}}">
+                	<div class="panel panel-primary">
+                    	<div class="participants panel-body">{{ thread.users.all|join:", " }}</div>
+                    </div>
+                    <div class="panel panel-primary">
+                    	<div class="latest-message panel-body" style="margin-left:100px;">
+                        	<p class="subject">{{ thread.subject }}</p>
+                        	<p class="content">{{ thread.latest_message.content }}</p>
+                    	</div>
+                    </div>
+                </a>
+            </div>
+        {% empty %}
+            <div class="no-messages">You have no messages.</div>
+        {% endfor %}
+    </section>
+<!-- </div> -->
+	</div>
+</section>
+{% endblock %}
+{% block script %}
+<style>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</style>
+{% endblock %}

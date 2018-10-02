@@ -1,0 +1,56 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>pinax messages</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+</head>
+  	<body>
+		<div>This is coming from site base page </div>
+
+  		{% block body_class %}
+  		
+  		{% endblock %}
+  		{% block body %} {% endblock %}
+  		 <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+
+      </div>
+    </div>
+
+    <div class="container">
+      <section class="mbr-section form3 cid-qVklWDIFnw" id="form3-k">
+
+    <div class="container">
+
+
+        <div class="row py-2 justify-content-center">
+            <div class="col-12 col-lg-6  col-md-8 " data-form-type="formoid">
+                <div data-form-alert="" hidden="">
+                        Thanks for filling out the form!
+                </div>
+               <!--  <form class="mbr-form" data-form-title="subscribe Form"> --><input type="hidden" name="email" data-form-email="true" value="" data-form-field="Email">
+                    {% csrf_token %}
+                    <div class="mbr-subscribe input-group">
+                        <input class="form-control" type="email" name="email" id="subEmail" placeholder="Email" data-form-field="Email" required="">
+                        <span class="input-group-btn">
+                            <button type="button" id="subscribe" class="btn btn-primary  display-4" style=" background-color: #f26522; border-color: transparent;border-radius: 0;">SUBSCRIBE</button>
+                        </span>
+                    </div>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+</section>
+      <div class="copyright">
+        &copy; Copyright <strong>PetJibe</strong>. All Rights Reserved
+      </div>
+
+      </div>
+  </footer><!-- #footer -->
+  	</body>
+  </html> 

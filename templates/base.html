@@ -1,0 +1,304 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PetJibe</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Favicons -->
+<link rel="apple-touch-icon" sizes="57x57" href='{% static "img/apple-icon-57x57.png" %}'>
+<link rel="apple-touch-icon" sizes="60x60" href='{% static "img/apple-icon-60x60.png" %}'>
+<link rel="apple-touch-icon" sizes="72x72" href='{% static "img/apple-icon-72x72.png" %}'>
+<link rel="apple-touch-icon" sizes="76x76" href='{% static "img/apple-icon-76x76.png" %}'>
+<link rel="apple-touch-icon" sizes="114x114" href='{% static "img/apple-icon-114x114.png" %}'>
+<link rel="apple-touch-icon" sizes="120x120" href='{% static "img/apple-icon-120x120.png" %}'>
+<link rel="apple-touch-icon" sizes="144x144" href='{% static "img/apple-icon-144x144.png" %}'>
+<link rel="apple-touch-icon" sizes="152x152" href='{% static "img/apple-icon-152x152.png" %}'>
+<link rel="apple-touch-icon" sizes="180x180" href='{% static "img/apple-icon-180x180.png" %}'>
+<link rel="icon" type="image/png" sizes="192x192"  href='{% static "img/android-icon-192x192.png" %}'>
+<link rel="icon" type="image/png" sizes="32x32" href='{% static "img/favicon-32x32.png" %}'>
+<link rel="icon" type="image/png" sizes="96x96" href='{% static "img/favicon-96x96.png" %}'>
+<link rel="icon" type="image/png" sizes="16x16" href='{% static "img/favicon-16x16.png" %}'>
+<link rel="manifest" href='{% static "img/manifest.json" %}'>
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content='{% static "img/ms-icon-144x144.png" %}'>
+<meta name="theme-color" content="#ffffff">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700" rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link href='{% static "lib/bootstrap/css/bootstrap.min.css" %}' rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href='{% static "lib/font-awesome/css/font-awesome.min.css" %}' rel="stylesheet">
+  <link href='{% static "lib/animate/animate.min.css" %}' rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href='{% static "css/style.css" %}' rel="stylesheet">
+
+
+</head>
+<body>
+
+ <!--============================================
+  				Header
+  =============================================-->
+  
+  <header id="header">
+    <div class="container">
+
+      <div id="logo" class="pull-left">
+        <a href="#hero"><img src='{% static "img/logo.png" %}' alt="" title="" /></img></a>
+
+      </div>
+
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+        {% if request.user.id %}
+          <li class="menu-active" id="home"><a href="{% url 'index' %}#hero">Home</a></li>
+          <li id="abt"><a href="{% url 'index' %}#About">Better Pet Life</a></li>
+          <li id="serv"><a href="{% url 'index' %}#services">About Us</a></li>
+          <li id="cnt"><a href="{% url 'index' %}#contact">Contact Us</a></li>
+          <li id="petregister"><a href='{% url "petRegisterPage" %}'>Pet Registration</a></li>
+          <!-- <li><a href='{% url "ownerRegistration" %}'>Owner Registration</a></li> -->
+          <li id="ownerprofile"><a href='{% url "ownerProfile" %}'>Owner Profile</a></li>
+          <li id="changepw"><a href='{% url "changepassword" %}'>Change Password</a></li>
+          	<li><a href="{% url 'logout' %}">Logout</a></li>
+          {% else %}
+          <li class="menu-active"><a href="{% url 'index' %}#hero">Home</a></li>
+          <li id="abt"><a href="{% url 'index' %}#About">Better Pet Life</a></li>
+          <li id="serv"><a href="{% url 'index' %}#services">About Us</a></li>
+          <li id="cnt"><a href="{% url 'index' %}#contact">Contact Us</a></li>
+          <li id="join"><a href='{% url "join" %}'>Sign Up / Sign In</a></li>	
+          {% endif %}     	       
+        </ul>
+      </nav><!-- #nav-menu-container -->
+    </div>
+  </header><!-- #header -->
+  <!-- ======================================================================================================== -->
+	
+	<!-- block for main content -->
+	{% block main %}
+	{% endblock %}
+	
+ <!--==========================
+      Contact Section
+    ============================-->
+    <section id="contact">
+
+      <div class="container wow fadeInUp">
+        <div class="row justify-content-center">
+
+          <div class="col-lg-4 col-md-6">
+
+            <div class="info">
+              <div>
+                <h3> Get in Touch </h3>
+                PetJibe is focused in building an engaged pet community.We want to help pet parents with pet care, pet grooming, pet health, dog trainer, organic pet food and in many more areas.Thank you for using PetJibe! Please complete the form, so we an provide quick and efficient service. If this is an urgent matter please contact Customer Support at <br> 630 791 3016 
+              </div>
+
+            </div>
+
+        <div class="social-links" style= "margin-top:30px">
+          <a href="https://twitter.com/PetJibe" class="twitter"><i class="fa fa-twitter"></i></a>
+          <a href="https://www.facebook.com/PetJibe/" class="facebook"><i class="fa fa-facebook"></i></a>
+          <a href="https://www.instagram.com/petjibe_petcommunity/" class="instagram"><i class="fa fa-instagram"></i></a>
+          
+            </div>
+
+        </div>
+
+          <div class="col-lg-4 col-md-6">
+          <div><p id="msg" style="color:#edb961;font-style:italic;"></p></div>
+            <div class="form">
+              <!-- <div id="sendmessage">Your message has been sent. Thank you!</div> -->
+              <div id="errormessage"></div>
+              <form action="#" method="post" class="contactForm" name="cntform" id="cntform" >
+                <div class="form-group">
+                  <input type="text" name="name" class="form-control" id="cname" placeholder="Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <input type="email" class="form-control" name="email" id="cemail" placeholder="Email" data-rule="email" data-msg="Please enter a valid email" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="subject" id="csubject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" name="message" id="cmessage" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                  <div class="validation"></div>
+                </div>
+                <div class="text-center"><button type="submit">Send Message</button></div>
+              </form>
+            </div>            
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- #contact -->
+    
+  <!--=====================================
+    		Footer
+  =======================================-->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+
+      </div>
+    </div>
+
+    <div class="container">
+      <section class="mbr-section form3 cid-qVklWDIFnw" id="form3-k">
+
+    
+    <div class="container">
+        <div class="row py-2 justify-content-center">
+            <div class="col-12 col-lg-6  col-md-8 " data-form-type="formoid">
+            	<div><p id="msgSub" style="color:#edb961;font-style:italic;"></p></div>
+                <div data-form-alert="" hidden="">
+                        Thanks for filling out the form!
+                </div>
+               <!--  <form class="mbr-form" data-form-title="subscribe Form"> --><input type="hidden" name="email" data-form-email="true" value="" data-form-field="Email">
+                    {% csrf_token %}
+                    <div class="mbr-subscribe input-group">
+                        <input class="form-control" type="email" name="email" id="subEmail" placeholder="Email" data-form-field="Email" required="">
+                        <span class="input-group-btn">
+                            <button type="button" id="subscribe" class="btn btn-primary  display-4" style=" background-color: #f26522; border-color: transparent;border-radius: 0;">SUBSCRIBE</button>
+                        </span>
+                    </div>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+	</section>
+      <div class="copyright">
+        &copy; Copyright <strong>PetJibe</strong>. All Rights Reserved
+      </div>
+
+      </div>
+  </footer><!-- #footer -->
+
+  <!-- JavaScript Libraries -->
+  <script src='{% static "lib/jquery/jquery.min.js" %}'></script>
+  <script src='{% static "lib/jquery/jquery-migrate.min.js" %}'></script>
+  
+  <script src='{% static "lib/bootstrap/js/bootstrap.bundle.min.js" %}'></script>
+  <script src='{% static "lib/easing/easing.min.js" %}'></script>
+  <script src='{% static "lib/wow/wow.min.js" %}'></script>
+
+ <!--  <script src='{% static "lib/waypoints/waypoints.min.js" %}'></script> -->
+  <script src='{% static "lib/counterup/counterup.min.js" %}'></script>
+  <script src='{% static "lib/superfish/hoverIntent.js" %}'></script>
+  <script src='{% static "lib/superfish/superfish.min.js" %}'></script>
+
+<!-- common js files for common functionality -->
+  <script src='{% static "js/common.js" %}'></script>
+  
+  <!-- Contact Form JavaScript File -->
+  <script src='{% static "contactform/contactform.js" %}'></script>
+
+  <!-- Template Main Javascript File -->
+  <script src='{% static "js/main.js" %}'></script>
+  
+  	<script type="text/javascript">
+	$(document).ready(function(e){
+		var ch = "";
+		var location = window.location.href;
+		if($.inArray("petRegisterPage",location.split("/"))!=-1){
+			$('#petregister').addClass("menu-active");
+			$('#home').removeClass("menu-active");
+			$('#ownerprofile').removeClass("menu-active");
+			$('#changepw').removeClass("menu-active");
+			$('#join').removeClass("menu-active");
+			$('#abt').removeClass("menu-active");
+			$('#serv').removeClass("menu-active");
+			$('#cnt').removeClass("menu-active");
+		}
+		else if($.inArray("#services",location.split("/"))!=-1){
+			$('#petregister').removeClass("menu-active");
+			$('#home').removeClass("menu-active");
+			$('#ownerprofile').removeClass("menu-active");
+			$('#changepw').removeClass("menu-active");
+			$('#join').removeClass("menu-active");
+			$('#abt').removeClass("menu-active");
+			$('#serv').addClass("menu-active");
+			$('#cnt').removeClass("menu-active");
+		}
+		else if($.inArray("#about",location.split("/"))!=-1){
+			$('#petregister').removeClass("menu-active");
+			$('#home').removeClass("menu-active");
+			$('#ownerprofile').removeClass("menu-active");
+			$('#changepw').removeClass("menu-active");
+			$('#join').removeClass("menu-active");
+			$('#abt').addClass("menu-active");
+			$('#serv').removeClass("menu-active");
+			$('#cnt').removeClass("menu-active");
+		}
+		else if($.inArray("#contact",location.split("/"))!=-1){
+			$('#petregister').removeClass("menu-active");
+			$('#home').removeClass("menu-active");
+			$('#ownerprofile').removeClass("menu-active");
+			$('#changepw').removeClass("menu-active");
+			$('#join').removeClass("menu-active");
+			$('#abt').removeClass("menu-active");
+			$('#serv').removeClass("menu-active");
+			$('#cnt').addClass("menu-active");
+		}
+		else if($.inArray("ownerProfile",location.split("/"))!=-1){
+			$('#petregister').removeClass("menu-active");
+			$('#home').removeClass("menu-active");
+			$('#ownerprofile').addClass("menu-active");
+			$('#changepw').removeClass("menu-active");
+			$('#join').removeClass("menu-active");
+			$('#abt').removeClass("menu-active");
+			$('#serv').removeClass("menu-active");
+			$('#cnt').removeClass("menu-active");
+		}
+		else if($.inArray("changepassword",location.split("/"))!=-1){
+			$('#petregister').removeClass("menu-active");
+			$('#home').removeClass("menu-active");
+			$('#ownerprofile').removeClass("menu-active");
+			$('#changepw').addClass("menu-active");
+			$('#join').removeClass("menu-active");
+			$('#abt').removeClass("menu-active");
+			$('#serv').removeClass("menu-active");
+			$('#cnt').removeClass("menu-active");
+		}
+		else if($.inArray("join",location.split("/"))!=-1){
+			$('#petregister').removeClass("menu-active");
+			$('#home').removeClass("menu-active");
+			$('#ownerprofile').removeClass("menu-active");
+			$('#changepw').removeClass("menu-active");
+			$('#join').addClass("menu-active");
+			$('#abt').removeClass("menu-active");
+			$('#serv').removeClass("menu-active");
+			$('#cnt').removeClass("menu-active");
+		}
+		else {
+			$('#petregister').removeClass("menu-active");
+			$('#home').addClass("menu-active");
+			$('#ownerprofile').removeClass("menu-active");
+			$('#changepw').removeClass("menu-active");
+			$('#join').removeClass("menu-active");
+			$('#abt').removeClass("menu-active");
+			$('#serv').removeClass("menu-active");
+			$('#cnt').removeClass("menu-active");
+		}
+	}); 
+		</script>
+  
+  <!-- block script -->
+  {% block script %}
+  {% endblock %}
+  
+
+</body>
+</html>
+

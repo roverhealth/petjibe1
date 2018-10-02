@@ -1,0 +1,214 @@
+{% extends "base_other.html" %}
+{% load staticfiles %}
+
+	
+<!-- main block part starts here -->	
+{% block main %}
+<div>
+<section>
+<div class="container layout">
+{% csrf_token %}
+      <form id="pet_register" enctype="multipart/form-data" action="#">
+        <fieldset>
+          <label class="col-md-5">Pet Name 
+          {% if pet_name %}
+          	<input type="text" name="petname" id="petname" value="{{pet_name}}" style="border-color:  #fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;">
+          {% else %}
+          	<input type="text" name="petname" id="petname" placeholder="Type Pet Name" style="border-color:  #fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;">
+          {% endif %}
+          </label>
+          <label class="col-md-5">Pet Type 
+          	<!-- <input type="text" name="pettype" id="pettype" style="border-color:  #fb8f01;border-radius: 3px; border-width: 1px;    position: absolute;right: 0;"> -->
+          	
+          	<select id="pettype" name="pettype"  style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;" class="regwidth">
+          	{% if pet_type %}
+          	{% for type in pet_type %}
+          		{% if pet_type_sel %}
+          		{% ifequal type.1 pet_type_sel %}
+          			<option value="{{type.1}}" selected>{{type.1}}</option>
+          		{% else %}
+          			<option value="{{type.1}}">{{type.1}}</option>
+          		{% endifequal %}
+          		{% else %}
+          			<option value="{{type.1}}">{{type.1}}</option>
+          		{% endif %}
+          	{% endfor %}
+          	{% else %}
+          		<option>No pet type found</option>
+          	{% endif %}
+          	</select>
+          </label><br>
+          
+          <label class="col-md-5">Pet Gender 
+          <select id="gender" name="gender" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;" class="regwidth">
+          	{% if gender %}
+          	{% ifequal gender "M" %}
+          		<option value="M" selected>Male</option>
+          		<option value="F" >Female</option>
+          	{% else %}
+          		<option value="M">Male</option>
+          		<option value="F" selected>Female</option>
+          	{% endifequal %}
+          	{% else %}
+          		<option value="M" selected>Male</option>
+          		<option value="F" >Female</option>
+          	{% endif %}
+          </select>
+          	
+          </label>
+          
+          <label class="col-md-5">Breed 
+          	<!-- <input type="text" name="Breed" id="breed" style="border-color:  #fb8f01;border-radius: 3px; border-width: 1px;    position: absolute;right: 0;"> -->
+          	
+          	<select id="breed" name="breed" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;" class="regwidth">
+          	{% if pet_breed %}
+          	{% for breed in pet_breed %}
+          		{% if pet_breed_sel %}
+          		{% ifequal breed.1 pet_breed_sel %}
+          			<option value="{{breed.1}}" selected>{{breed.1}}</option>
+          		{% else %}
+          			<option value="{{breed.1}}" >{{breed.1}}</option>
+          		{% endifequal %}
+          		{% else %}
+          			<option value="{{breed.1}}" >{{breed.1}}</option>
+          		{% endif %}
+          	{% endfor %}
+          	{% else %}
+          		<option>No breed found</option>
+          	{% endif %}
+          	</select>
+          </label><br>
+           
+		   <label class="col-md-5">Weight 
+          {% if weight %}
+          	<input type="text" name="weight" id="weight" value={{weight}} style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;">
+          {% else %}
+          		<input type="text" name="weight" id="weight" placeholder="Type Pet Weight" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;">
+          	{% endif %}
+          </label>
+                    
+          <label class="col-md-5">Pet Age 
+          {% if age %}
+          	<input type="text" name="age" id="age" value="{{age}}" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;">
+          {% else %}
+          		<input type="text" name="age" id="age" placeholder="Type Pet Age" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;">
+          	{% endif %}
+          </label><br>
+          <label class="col-md-6" >Pet Picture<input type="file" class="col-md-6 posi" name="pic" id="file" accept="image/jpeg" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;right: 0;" ></label>
+         <br><br>
+          
+          <label class="col-md-10">Special Instruction 
+          {% if special_inst %}
+          	<input type="text" class="posi" name="instruction" id="instruction" value="{{special_inst}}" style="border-color:  #fb8f01;border-radius: 3px; border-width: 1px;right: 0;width:70%;">
+          {% else %}
+          		<input type="text" class="posi" name="instruction" id="instruction" placeholder="Type Special Instructions" style="border-color:  #fb8f01;border-radius: 3px; border-width: 1px;right: 0;width:70%;">
+          	{% endif %}
+          </label><br>
+
+          <span style="padding-left:15px;">
+          <input type="submit" value="Add a pet" style="background-color: #fb8f01;border: 0px;border-radius: 3px;color: #fff;padding: 3px 15px;"></span>
+		  <span style="padding-left:15px;">
+          <input type="button" value="Reset" id="reset" style="background-color: #fb8f01;border: 0px;border-radius: 3px;color: #fff;padding: 3px 15px;"></span>
+        </fieldset>
+      </form>
+      <p id="msgdiv" style="color:#6a820a;font-style:italic;padding-top:10px;"></p>
+      </div>
+  
+    </section>        
+</div>
+
+
+ {% endblock %}
+<!-- end here -->
+ 
+<!-- block script -->
+{% block script %}
+  
+
+	
+  <script>
+  	$(document).ready(function(e){
+  		//================================================================
+  			//======= ajax call to populate breed according to pet type
+  		//================================================================
+  		$("#pettype").on("change",function(e){
+  			e.preventDefault();
+  			var pettype = $("#pettype option:selected").val();
+  			data={
+  					"pettype":pettype
+  			}
+  			//sending form data
+			 $.ajax({
+	            	type:'POST',
+	            	url: '/pet-breed/',
+	            	data:JSON.stringify(data),
+	            	success: function(response){
+	            		//population of pet breed
+	            		var breed_len = response['pet_breed'].length;
+	            		var html_content = "";
+	            		$("#breed").html("");
+	            		if(breed_len>0){
+	            			for(var i=0; i<breed_len; i++){
+		            			html_content += "<option value='"+response['pet_breed'][i][1]+"'>"+response['pet_breed'][i][1]+"</option>";
+		            			$("#breed").html(html_content);
+		            		}
+	            		}
+	            		else{
+	            			html_content = "<option value='0'>No data found</option>";
+	            			$("#breed").html(html_content);
+	            		}
+	            		                                            
+	            	},
+	            	error: function(err){
+	            		alert("error");
+	            	},
+	            	dataType: "json",
+					contentType: "application/json",
+	            	headers:{"X-CSRFToken": $('input[name="csrfmiddlewaretoken"]').attr('value')},
+	            });
+  		});
+  		
+  		//=========================================================
+  			//===== pet registration ajax call to submit data
+  		//=========================================================
+  		$("#pet_register").on("submit",function(e){
+  			e.preventDefault();
+			var formData = new FormData(this);
+			//sending form data
+			 $.ajax({
+	            	type:'POST',
+	            	url: '/pet-register/',
+	            	data:formData,
+	            	processData: false,
+             	    contentType: false,
+	            	success: function(response){
+	            		//window.location.href = "{% url 'index' %}";
+	            		$("#msgdiv").text("Your pet has registered successfully.") ; 
+	            		window.location.href = "{% url 'ownerProfile' %}";
+	            	},
+	            	error: function(err){
+	            		alert("error");
+	            	},
+	            	headers:{"X-CSRFToken": $('input[name="csrfmiddlewaretoken"]').attr('value')},
+	            });
+  		});
+  		
+  		//=================================================
+  			//======== add pet and reset all field value
+  		//=================================================
+  		$("#reset").on("click",function(e){
+  			$("#petname").val("");
+  			$("#age").val("");
+  			$("#gender").val("");
+  			$("#file").val("");
+  			$("#weight").val("");
+  			$("#instruction").val("");
+  			$("#msgdiv").text("");
+  		});
+  			
+  			
+  	});
+  </script>
+{% endblock %}
+
+

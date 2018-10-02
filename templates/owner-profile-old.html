@@ -1,0 +1,184 @@
+{% extends "base_other.html" %}
+{% load staticfiles %}
+
+	
+<!-- main block part starts here -->	
+{% block main %}
+<section>
+<div class="container layout">
+      <form>
+      {% csrf_token %}
+        <fieldset>
+          <label class="col-md-3 colour">First Name </label>
+          {% if firstname %}
+          	<label class="col-md-3">{{firstname}}</label><br>
+          {% else %}
+          	<label class="col-md-3">First name not found </label><br>
+          {% endif %}
+           <label class="col-md-3 colour">Last Name </label>
+           {% if lastname %}
+           <label class="col-md-3">{{lastname}}</label><br>
+           {% else %}
+          	<label class="col-md-3">Last name not found </label><br>
+          {% endif %}
+           <label class="col-md-3 colour">Address 1 </label>
+           {% if address1 %}
+           <label class="col-md-3">{{address1}}</label><br>
+           {% else %}
+          	<label class="col-md-3">Address not found </label><br>
+          {% endif %}
+           <label class="col-md-3 colour">Address 2 </label>
+           {% if address2 %}
+           <label class="col-md-3">{{address2}}</label><br>
+           {% else %}
+          	<label class="col-md-3">Address not found </label><br>
+          {% endif %}
+           <label class="col-md-3 colour">City </label>
+           {% if city %}
+           <label class="col-md-3">{{city}}</label><br>
+           {% else %}
+          	<label class="col-md-3">City not found </label><br>
+          {% endif %}
+           <label class="col-md-3 colour">State </label>
+           {% if state_name %}
+           <label class="col-md-3">{{state_name}}</label><br>
+           {% else %}
+          	<label class="col-md-3">State not found </label><br>
+          {% endif %}
+           <label class="col-md-3 colour">Country </label>
+           {% if country_name %}
+           <label class="col-md-3">{{country_name}}</label><br>
+           {% else %}
+          	<label class="col-md-3">Country not found </label><br>
+          {% endif %}
+           <label class="col-md-3 colour">Phone</label>
+           {% if phone %}
+           <label class="col-md-3">{{phone}}</label><br>
+           {% else %}
+          	<label class="col-md-3">Phone not found </label><br>
+          {% endif %}
+          <label class="col-md-3 colour">Email </label>
+          {% if email %}
+          <label class="col-md-3">{{email}}</label><br>
+          {% else %}
+          	<label class="col-md-3">Email not found </label><br>
+          {% endif %}
+          <label class="col-md-3 colour">Other Email </label>
+          {% if otheremail %}
+          <label class="col-md-3">{{otheremail}}</label><br>
+          {% else %}
+          	<label class="col-md-3">Other Email not found </label><br>
+          {% endif %}
+
+
+		<label class=" col-md-3 colour">Own Pet(s)</label><br><br>
+<div class="container">           
+  <table class="table table-striped">
+    <thead>
+    {% if pet_list %}
+      <tr class="colour">
+        <th>Pet Name</th>
+        <th>Pet Type</th>
+        <th>Breed</th>
+        <th>Gender</th>
+        <th>Age</th>
+        <th></th>
+        <th></th>
+      </tr>
+      {% endif %}
+    </thead>
+    <tbody>
+    {% if pet_list %}
+    {% for pet in pet_list %}
+      <tr>
+        <td>{{pet.1}}</td>
+        <td>{{pet.3}}</td>
+        <td>{{pet.4}}</td>
+        <td>{{pet.2}}</td>
+        <td>{{pet.5}} Years</td>
+        <td><a href="{% url 'petEditView' pet.0 %}" data_id="{{pet.0}}" class="pet_edit" style="background-color: #fb8f01;width: 100px;border: 0px;border-radius: 3px;color: #fff;padding: 3px 15px;">Edit </a>
+        <br><br></td>
+          <td><a type="button" data_id="{{pet.0}}" class="delete" style="background-color: #fb8f01;border: 0px;border-radius: 3px;width: 100px;color: #fff;padding: 3px 15px;">Delete </a><br><br></td>
+      </tr>
+      {% endfor %}
+      {% else %}
+       <tr>No Records Found. Please Register your pet.</tr>
+      {% endif %}
+      
+    </tbody>
+  </table>
+</div>
+
+
+
+
+		{% if interest_list %}
+          {% for interest in interest_list %}
+			<label class=" col-md-3">{{interest.1}}</label><br>
+          {% endfor %}
+          {% else %}
+          <label class=" col-md-3">No user interests found</label>  <br>
+          {% endif %}
+
+         
+			<label class="col-md-3 colour">Comment </label>
+			{% if comment %}
+			<label class="col-md-6">{{comment}}</label><br><br>
+			{% else %}
+			<label class="col-md-6">No user comment found</label><br><br>
+			 {% endif %}
+			 
+   <a class="col-md-3" href="{% url 'ownerProfileEdit' %}" style="background-color: #fb8f01;border: 0px;border-radius: 3px;color: #fff;    width: 100px;padding: 3px 15px;">Edit </a><br><br>
+       
+        </fieldset>
+      </form>
+      </div>
+  
+    </section>        
+
+
+
+{% endblock %}
+<!-- end here -->
+ 
+<!-- block script -->
+{% block script %}
+	
+	<script>
+	$(document).ready(function(e){
+		//================================================================
+			//======= ajax call to delete pet record 
+		//================================================================
+		$(".delete").on("click", function(e){
+			var pet_id = $(this).attr("data_id");
+			data={
+					"pet_id":pet_id
+			}
+			//sending form data
+			 $.ajax({
+		        	type:'POST',
+		        	url: '/petDelete/',
+		        	data:JSON.stringify(data),
+		        	success: function(response){
+			             alert("success");    
+			             $("#otherstate").hide();
+			             window.location.href="{% url 'ownerProfile' %}";
+		        	},
+		        	error: function(err){
+		        		alert("error");
+		        		$("#otherstate").hide();
+		        	},
+		        	dataType: "json",
+					contentType: "application/json",
+		        	headers:{"X-CSRFToken": $('input[name="csrfmiddlewaretoken"]').attr('value')},
+		        });			
+		});
+		//================================================================
+			//======= ajax call to edit pet record
+		//================================================================
+		
+	});
+	</script>
+{% endblock %}
+
+

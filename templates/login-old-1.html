@@ -1,0 +1,314 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PetJibe</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Favicons -->
+<link rel="apple-touch-icon" sizes="57x57" href='{% static "img/apple-icon-57x57.png" %}'>
+<link rel="apple-touch-icon" sizes="60x60" href='{% static "img/apple-icon-60x60.png" %}'>
+<link rel="apple-touch-icon" sizes="72x72" href='{% static "img/apple-icon-72x72.png" %}'>
+<link rel="apple-touch-icon" sizes="76x76" href='{% static "img/apple-icon-76x76.png" %}'>
+<link rel="apple-touch-icon" sizes="114x114" href='{% static "img/apple-icon-114x114.png" %}'>
+<link rel="apple-touch-icon" sizes="120x120" href='{% static "img/apple-icon-120x120.png" %}'>
+<link rel="apple-touch-icon" sizes="144x144" href='{% static "img/apple-icon-144x144.png" %}'>
+<link rel="apple-touch-icon" sizes="152x152" href='{% static "img/apple-icon-152x152.png" %}'>
+<link rel="apple-touch-icon" sizes="180x180" href='{% static "img/apple-icon-180x180.png" %}'>
+<link rel="icon" type="image/png" sizes="192x192"  href='{% static "img/android-icon-192x192.png" %}'>
+<link rel="icon" type="image/png" sizes="32x32" href='{% static "img/favicon-32x32.png" %}'>
+<link rel="icon" type="image/png" sizes="96x96" href='{% static "img/favicon-96x96.png" %}'>
+<link rel="icon" type="image/png" sizes="16x16" href='{% static "img/favicon-16x16.png" %}'>
+<link rel="manifest" href='{% static "img/manifest.json" %}'>
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content='{% static "img/ms-icon-144x144.png" %}'>
+<meta name="theme-color" content="#ffffff">
+
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700" rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link href='{% static "lib/bootstrap/css/bootstrap.min.css" %}' rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href='{% static "lib/font-awesome/css/font-awesome.min.css" %}' rel="stylesheet">
+  <link href='{% static "lib/animate/animate.min.css" %}' rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href='{% static "css/login.css" %}' rel="stylesheet">
+  <link href='{% static "css/style.css" %}' rel="stylesheet">
+
+	<script>
+/* $("#fblogin").click(function(event) {
+
+    //Fetch form to apply custom Bootstrap validation
+    var form = $("#formLogin")
+
+    if (form[0].checkValidity() === false) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
+    
+    form.addClass('was-validated'); 
+  });
+
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '180750465762639',
+      xfbml      : true,
+      version    : 'v2.4'
+    });
+    FB.AppEvents.logPageView();
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk')); */
+</script>
+
+</head>
+
+<body class="bgimage">
+
+<!--===========================================
+  					Header
+=============================================-->
+  <header id="header">
+    <div class="container">
+	{% csrf_token %}
+      <div id="logo" class="pull-left">
+        <a href="#hero"><img src='{% static "img/logo.png" %}' alt="" title="" /></img></a>
+      </div>
+
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li><a href="{% url 'index' %}">Home</a></li>
+          <li><a href="{% url 'index' %}#hero">Better Pet Life</a></li>
+          <li><a href="{% url 'index' %}#services">About Us</a></li>
+          <li><a href="{% url 'index' %}#contact">Contact Us</a></li>
+          <li class="menu-active"><a href='{% url "join" %}'>Sign Up / Sign In</a></li>	
+        </ul>
+      </nav><!-- #nav-menu-container -->
+    </div>
+  </header><!-- #header -->
+
+
+<p class="tip"></p>
+<div class="cont" style="opacity:0.85;">
+  <div class="form sign-in" style="position:inherit;width:inherit;">
+    <h2>Welcome back,</h2>
+    <label>
+      <span>Email</span>
+      <input type="email" id="email" />
+    </label>
+    <label>
+      <span>Password</span>
+      <input type="password" id="password" />
+    </label>
+    
+    <!-- error paragraph -->
+    <p class="forgot-pass" id="login-err" style="display:none;">
+    	<span style="color: red;font-size: 13px;">**Please enter correct email/password</span><br>
+    	<span style="color: #000;">OR Click   </span><a href='{% url "forgotpassword" %}'> Forgot password?</a>
+    </p>
+    
+    <p class="forgot-pass" id="orig"><a href='{% url "forgotpassword" %}'>Forgot password?</a></p>
+    
+    <button type="button" class="submit" id="signin">Sign In</button>
+    <button type="button" class="fb-btn" id="fblogin">Connect with <span>facebook</span></button>
+    
+  </div>
+  
+  
+  <div class="sub-cont">
+    <div class="form sign-up" style="position:inherit;width:inherit;">
+      <h2>Time to feel like home,</h2>
+      <label>
+        <span>User Name</span>
+        <input type="text" id="rusername" />
+      </label>
+      <label>
+        <span>Email</span>
+        <input type="email" id="remail" />
+      </label>
+      <label>
+        <span>Password</span>
+        <input type="password" id="rpassword" />
+      </label>
+      
+      <!-- error paragraph -->
+      <p style="margin: 0px;text-align: center;font-size: 13px;color: red; display:none;" id="reg-err">**Please enter correct Email</p>
+      
+      <button type="button" class="submit" id="register">Sign Up</button>
+      <button type="button" class="fb-btn" id="fblogin" >Join with <span>facebook</span></button>
+
+    </div>
+  </div>
+  
+   <div class="img__btn1" style="text-align:center;margin-top:75px;">
+        <button id="swapp" data-text-swap="SIGN IN" class="submit">Sign UP</button>
+      </div>
+</div>
+<script>
+var button = document.getElementById("swapp");
+button.addEventListener('click', function() {
+  if (button.getAttribute("data-text-swap") == button.innerHTML) {
+    button.innerHTML = button.getAttribute("data-text-original");
+  } else {
+    button.setAttribute("data-text-original", button.innerHTML);
+    button.innerHTML = button.getAttribute("data-text-swap");
+  }
+}, false);
+</script>
+
+<script>
+  document.querySelector('.img__btn1').addEventListener('click', function() {
+  document.querySelector('.cont').classList.toggle('s--signup'); 
+});
+</script>
+
+  
+  <!-- JavaScript Libraries -->
+  <script src='{% static "lib/jquery/jquery.min.js" %}'></script>
+  <script src='{% static "lib/jquery/jquery-migrate.min.js" %}'></script>
+  <script src='{% static "lib/bootstrap/js/bootstrap.bundle.min.js" %}'></script>
+  <script src='{% static "lib/easing/easing.min.js" %}'></script>
+  <script src='{% static "lib/wow/wow.min.js" %}'></script>
+
+
+  <script src='{% static "lib/waypoints/waypoints.min.js" %}'></script>
+  <script src='{% static "lib/counterup/counterup.min.js" %}'></script>
+  <script src='{% static "lib/superfish/hoverIntent.js" %}'></script>
+  <script src='{% static "lib/superfish/superfish.min.js" %}'></script>
+
+  <!-- Contact Form JavaScript File -->
+  <script src='{% static "contactform/contactform.js" %}'></script>
+
+  <!-- Template Main Javascript File -->
+  <script src='{% static "js/main.js" %}'></script>
+  <script  src='{% static "js/index.js" %}'></script>
+
+
+
+<script>
+$(document).ready(function(e){
+	$("#login-err").hide();
+	$("#reg-err").hide();
+	var appid='2078579412407875';
+	var loggedUser="";
+	$(".fb-btn").click(function(event) {
+	$.getScript('//connect.facebook.net/en_US/sdk.js', function () {
+        window.fbAsyncInit = function () {
+
+            $.ajaxSetup({cache: true});
+            FB.init({
+                appId: appid, cookie: true,
+                status: true, xfbml: true,
+                version: 'v2.8'
+            });
+            FB.getLoginStatus(function (response) {
+                console.log(response)
+                if (response.status == 'connected') {
+                    isLoaded = 'fbLogged';
+                    loggedUser = response.authResponse.userID;
+                    fb_access_token = response.authResponse.accessToken;
+                    event_url='/v3.0/'+loggedUser+'/events';
+                    $.ajax({
+                    	url:'/fb_token/',
+                        data:{csrfmiddlewaretoken:'{{csrf_token}}',access_token:fb_access_token},
+                        type:'POST',
+                        success:function (response) {
+							window.location.href="{% url 'index' %}";
+                        },
+                        error:function (xhr, type, exception) {
+                            
+                        }
+                    });
+
+                } else {
+                    isLoaded = 'fbNotLogged';
+                    FB.login(function (response) {
+                        if (response.status == 'connected') {
+                            loggedUser = response.authResponse.userID;
+                    fb_access_token = response.authResponse.accessToken;
+                    event_url='/v3.0/'+loggedUser+'/events';
+
+                        }
+                    }//,{scope: 'user_events,pages_show_list'})
+                    ,{scope: 'publish_pages,manage_pages'})
+                }
+            });
+        };
+    });
+	});
+	
+	
+	$('#signin').click(function(e){
+		e.preventDefault();
+		var email = $('#email').val();
+		var password = $('#password').val();
+		$.ajax({
+			type:'POST',
+			url:'/login/',
+			data:{
+				'username':email,					
+				'password':password,
+				'csrfmiddlewaretoken': '{{ csrf_token }}',
+			},
+			error:function(e){
+				//alert(e);
+				$("#orig").hide();
+				$("#login-err").show();
+				
+			},
+			success:function(data,xhr){
+				$("#login-err").hide();
+				$("#orig").show();
+				window.location.href = "{% url 'index' %}"
+				
+			},
+		});
+	});
+	
+	$('#register').click(function(e){
+		e.preventDefault();
+		var username = $('#rusername').val();
+		var password = $('#rpassword').val();
+		var email = $('#remail').val();
+		$.ajax({
+			type:'POST',
+			url:'/registration/',
+			data:{
+				'fullname':username,
+				'username':email,
+				'email':email,
+				'password':password,
+				'csrfmiddlewaretoken': '{{ csrf_token }}',
+			},
+			error:function(e){
+				$("#reg-err").show();
+			},
+			success:function(data){		
+				$("#reg-err").hide();
+				$(location).attr('href',"/");
+			},
+		});
+	});
+	
+	
+	
+});
+
+
+</script>
+
+</body>
+</html>

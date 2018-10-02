@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+	
+<!-- main block part starts here -->	
+{% block main %}
+
+<section>
+	<div class="container layout col-lg-10">
+      <div class="row">
+      	<h2>New Message</h2>
+      </div>
+      <div class="row">
+      	<div class="col-md-6">
+      		{% if user_list %}
+      		<div id="user_list">
+      		{% for oneuser in user_list %}
+      		<div data-url="{{oneuser.0}}" class="one_user" >
+      			{{oneuser.1}}
+      		</div>
+      		{% endfor %}
+      		</div>
+      		{% endif %}
+      		
+      	</div>
+      	<div class="col-md-6" id="thread_msg" style="background-color:#c6efee;">
+      		<input type="text" name="to_user" id="to_user" placeholder="To " readonly />	
+      		<input type='text' name='subj' id="subj" class='subj' placeholder="Type your message subject here." size="50px" />     		
+      		<input type='text' name='msgdata' id="msgdata" class='msgdata' placeholder="Type your message here." style="height:50px;" size="50px" />
+        	<button type='submit' id='msgsend' >Send Msg</button>
+      	</div>
+      </div>
+      
+    </div>
+  
+</section>        
+
+{% endblock %} 
+
+{% block script %}
+<script type="text/javascript">
+	$(document).ready(function(e){
+		$(".one_user").on("click",function(e){
+			var u_email = $(this).attr("data-url");
+			$("#to_user").val(u_email);
+		});
+		
+		$("#msgsend").on("click",function(e){
+			var to_user = $("#to_user").val();
+			var msg = $("#msgdata").val();
+			var subj = $("#subj").val();
+			var data = {
+					"to_user":to_user,
+					"msg":msg,
+					"subj":subj,
+			}
+			$.ajax({
+				type:"POST",
+				url:"/createmsgthread/",
+				data:JSON.stringify(data),
+				error:function(e){alert("error");},
+				success:function(e){alert("success")},
+				dataType:"json",
+				contentType:"application/json",
+				headers:{"X-CSRFToken": $('input[name="csrfmiddlewaretoken"]').attr('value')},
+			});
+		}); 
+		
+		
+	});
+</script>
+{% endblock %}
+
+
+
+
+

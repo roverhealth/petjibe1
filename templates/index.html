@@ -1,0 +1,615 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+	
+<!-- main block part starts here -->	
+{% block main %}
+
+  <!--==========================
+    	Hero Section
+  ============================-->
+<section id="hero">
+	<div class="hero-container">
+		<h1>Pet community</h1>
+		<h2>Our vision is to develop a highly engaged pet community</h2>
+		<p id="errormsg" style="font-style:italic;color:#ffffff"></p>
+		<div class="search-box">
+		
+			<!-- pet type dropdown  -->
+			{% if pet_type_list %}
+			<div class="dropdown">
+				<select id="pet_type" class="btn btn-default dropdown-toggle drpbtn">
+					<option value="0" selected>Pet Type</option>
+					{% with 1 as pet_sel %}  
+					{% for one_pet in pet_type_list %}
+						{% ifequal one_pet.0 pet_sel %}
+							<option value="{{one_pet.0}}" >{{one_pet.1}}</option>
+						{% else %}
+							<option value="{{one_pet.0}}">{{one_pet.1}}</option>
+						{% endifequal %}
+					{% endfor %}	
+  					{% endwith %}
+  				</select>
+  			</div>
+  			{% else %}
+			<div class="dropdown">
+				<button class="btn btn-default dropdown-toggle drpbtn" type="button" id="menu1" data-toggle="dropdown">Pet Type
+				<span class="caret"></span></button>
+				<ul class="dropdown-menu drpbtn" role="menu" aria-labelledby="menu1"style="transform: translate3d(0px, 38px, 0px) !important; padding-left: 10px;">
+      				<li >Dog</li>
+     				<li >Cat</li>
+      				<li >Reptiles</li>
+      				<li >Fish</li>
+    			</ul>
+  			</div>
+  			{% endif %}
+  
+   			<!-- pet breed dropdown  -->
+   			{% if pet_breed_list %}
+  			<div class="dropdown">
+  				<select id="pet_breed" class="btn btn-default dropdown-toggle drpbtn">
+  					<option value="0" selected>Pet Breed</option>
+					{% for one_pet in pet_breed_list %}
+  						<option value="{{one_pet.0}}">{{one_pet.1}}</option>
+  					{% endfor %}	
+  				</select>
+  			</div>
+  			{% else %}
+    		<div class="dropdown">
+    			<button class="btn btn-default dropdown-toggle drpbtn" type="button" id="menu1" data-toggle="dropdown">Breed
+    			<span class="caret"></span></button>
+    			<ul class="dropdown-menu drpbtn" role="menu" aria-labelledby="menu1" style="transform: translate3d(0px, 38px, 0px) !important; padding-left: 10px;">
+      				<li>Mastiff</li>
+      				<li>Labrador</li>
+      				<li>German Shephard</li>
+      				<li>Husky</li>
+    			</ul>
+  			</div>
+   			{% endif %}
+   
+   			<!-- pet owner interests  -->
+   			{% if owner_interest_list %}
+  				<div class="dropdown">
+  					<select id="owner_intrs" class="btn btn-default dropdown-toggle drpbtn">
+  						<option value="0">Pet Owner Interests</option>
+						{% for one_interest in owner_interest_list %}
+  							<option value="{{one_interest.0}}">{{one_interest.1}}</option>
+  						{% endfor %}	
+  					</select>
+  				</div>
+  			{% else %}
+  			
+  			<!-- Owner Interests -->
+   			<div class="dropdown">
+    			<button class="btn btn-default dropdown-toggle drpbtn" type="button" id="menu1" data-toggle="dropdown">owner Interests
+    			<span class="caret"></span></button>
+    			<ul class="dropdown-menu drpbtn" role="menu" aria-labelledby="menu1"style="transform: translate3d(0px, 38px, 0px) !important; padding-left: 10px;">
+      				<li>1 Mile</li>
+      				<li>3 Miles</li>
+      				<li>5 Miles</li>
+    			</ul>
+  			</div>
+  			{% endif %}
+  
+  
+  			<!-- radius  -->
+  			<div class="dropdown"><input type="text" name="radius" id="radius" placeholder="Miles" class="btn btn-default dropdown-toggle drpbtn" /></div>
+
+  
+  			<!-- petjibe user zipcode  --> 
+  				<!-- <select id="zipcode">
+  					<option>No data found</option>
+  				</select> -->
+  			<div class="dropdown"> <input type="text" name="zipcode" id="zipcode" placeholder="zip code" class="btn btn-default dropdown-toggle drpbtn" /></div>
+  
+  			<!-- pet owner interests  -->
+			<!--    {% if zipcode_list %}
+  			<select id="zipcode">
+			{% for one_zipcode in zipcode_list %}
+  			<option value="{{one_zipcode.0}}">{{one_zipcode.0}}</option>
+  			{% endfor %}	
+  			</select>
+  			{% else %}
+    		<div class="dropdown">
+    		<button class="btn btn-default dropdown-toggle drpbtn" type="button" id="menu1" data-toggle="dropdown">Zip
+    		<span class="caret"></span></button>
+    		<ul class="dropdown-menu drpbtn" role="menu" aria-labelledby="menu1"style="transform: translate3d(0px, 38px, 0px) !important; padding-left: 10px;">
+      			<li>123456</li>
+      			<li>345677</li>
+      			<li>554555</li>
+      			<li>112344</li>
+    		</ul>
+  			</div>
+  			{% endif %} -->
+  
+  			<!-- hidden data -->
+  			<input type="hidden" id="clat" value="" />
+  			<input type="hidden" id="clong" value="" />
+  
+  
+  			<input class="drpbtn" id="fyndExtFamly" type="submit" value="Find Extended Family" href="#" style="background-color: #fb8f01;border: 0px;border-radius: 3px;color: #fff;padding: 6px 15px;">
+    	</div>
+	</div> 
+</section><!-- #hero -->
+
+<main id="main">
+
+    <!--==========================
+      About Us Section
+    ============================-->
+
+	<section id="About">
+		<div class="container wow fadeIn">
+			<div class="section-header">
+				<h3 class="section-title">Better Pet Life</h3>
+				<p class="section-description">PetJibe community is to help Pet parents with petcare, pet grooming,pet health, dog trainer,<br> organic pet food and in many more areas. Our goal is to make Pet parenting a fun and exciting experience.</p>
+			</div>
+		</div>
+	</section><!-- #services -->
+	<section>
+		<div class="container petlife">
+        <div class="row about-container">
+			
+  <!-- <div class="row">
+      <div class="col-lg-4  wow fadeInUp" data-wow-delay="0.2s">
+            <div class="box">
+              <div class="shadow"> <img src='{% static "img/opt/petcare.png" %}' alt=""></div>
+               
+            </div>
+          </div>
+          <div class="col-lg-4  wow fadeInUp" data-wow-delay="0.4s">
+            <div class="box">
+              <div class="shadow"><img src='{% static "img/opt/dogtraining.png" %}' alt=""> 
+              </div>
+            
+            </div>
+          </div>
+          <div class="col-lg-4  wow fadeInUp" data-wow-delay="0.6s">
+            <div class="box">
+            <div class="shadow"> <img src='{% static "img/opt/pethealth.png" %}' alt=""></div>
+            
+          </div>
+        </div>
+  </div>
+ 
+  
+  
+ <div class="row">
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="box">
+            <div class="shadow"> <img src='{% static "img/opt/grooming.png" %}' alt=""> </div>
+              
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
+            <div class="box">
+              <div class="shadow"> <img src='{% static "img/opt/petfood.png" %}' alt=""> </div>
+             
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
+            <div class="box">
+              <div class="shadow"> <img src='{% static "img/opt/community.png" %}' alt=""> </div>
+              
+            </div>
+          </div>
+  </div>
+   -->
+  
+<!-- dynamic part -->
+    <div class="row">
+
+ 
+         <!-- <div class="col-lg-4  wow fadeInUp" data-wow-delay="0.2s"> -->
+            {% if category_list1 %}
+				{% for one_cat in category_list1 %}
+					{% if one_cat.0 == 1 %}
+					<div class="col-lg-4  wow fadeInUp imgmob" data-wow-delay="0.2s">					 
+						<div class="box">
+            				<div class="shadow"> 
+    				 			<a href='{% url "petArticle" one_cat.0 %}' target="_blank">
+					 				<img src='{% static "img/opt/petcare.png" %}' alt="">
+					 			</a>
+    				 		</div>
+    				 	</div>
+    				</div>
+    				 {% elif one_cat.0 == 2 %}
+    				 <div class="col-lg-4  wow fadeInUp imgmob" data-wow-delay="0.2s">
+    				 	<div class="box">
+            				<div class="shadow"> 
+    				 			<a href='{% url "petArticle" one_cat.0 %}' target="_blank"> 
+									<img src='{% static "img/opt/petfood.png" %}' alt="">
+								</a>
+    				 		</div>
+    				 	</div>   				 
+    				 </div>
+    				 {% elif one_cat.0 == 3 %}
+    				 <div class="col-lg-4  wow fadeInUp imgmob" data-wow-delay="0.2s"> 
+    				 	<div class="box">
+            				<div class="shadow"> 
+    				 			<a href='{% url "petArticle" one_cat.0 %}' target="_blank"> 
+									<img src='{% static "img/opt/community.png" %}' alt="">
+								</a>
+    				 		</div>
+    				 	</div>  				
+    				 </div>
+    				 {% else %}
+    				 	No data Found 
+    				 {% endif %}
+  				{% endfor %}
+  			{% endif %}
+  	</div>
+ 
+
+	<div class="row">
+		{% if category_list2 %}
+			{% for one_cat in category_list2 %}
+			{% if one_cat.0 == 4 %}
+				<div class="col-lg-4 wow fadeInUp imgmob" data-wow-delay="0.2s">
+					<div class="box">
+						<div class="shadow">
+    				 		<a href='{% url "petArticle" one_cat.0 %}' target="_blank">	
+								<img src='{% static "img/opt/grooming.png" %}' alt="">
+							</a>
+    				 	</div>
+    				 </div>	
+    			</div>
+    		{% elif one_cat.0 == 5 %}
+    			<div class="col-lg-4 wow fadeInUp imgmob" data-wow-delay="0.2s">
+    				<div class="box">
+            			<div class="shadow"> 
+    				 		<a href='{% url "petArticle" one_cat.0 %}' target="_blank"> 
+								<img src='{% static "img/opt/dogtraining.png" %}' alt="">
+							</a>
+    				 	</div>
+    				 </div>    				
+    			</div>
+    		{% elif one_cat.0 == 6 %}
+    			<div class="col-lg-4 wow fadeInUp imgmob" data-wow-delay="0.2s">   				 
+    				<div class="box">
+            			<div class="shadow"> 
+    				 		<a href='{% url "petArticle" one_cat.0 %}' target="_blank">
+								<img src='{% static "img/opt/pethealth.png" %}' alt="">
+							</a>   				 	
+    				 	</div>
+    				</div>
+    			</div>
+    		{% else %}
+    				No data Found 
+    		{% endif %}
+  			{% endfor %}
+  		{% endif %}
+   	</div>
+  
+</div>
+</div>
+
+</section><!-- #about -->
+
+
+    <!--==========================
+      Services Section
+    ============================-->
+    <section id="services">
+      <div class="container wow fadeIn">
+        <div class="section-header">
+          <h3 class="section-title">A Few words About Us</h3>
+          <p class="section-description">Our goal is to make pet parenting a fun and exciting experience.<br>PetJibe is focused in building an engaged pet community.<br> We want to help pet parents with pet care, pet grooming, pet health,<br> dog trainer, organic pet food and in many more areas.<br> We are a group of pet lovers working on solutions to connect pet <br>parents and service providers. These solutions will make pet<br> services easily available and affordable.</p>
+        </div>
+		<div class="col-lg-12 imgmob" style="text-align:  center;"><img src='{% static "img/bgbottom.png" %}' alt=""></div>
+
+      </div>
+    </section><!-- #services -->
+    
+</main>
+	
+
+{% endblock %}
+<!-- end here -->
+ 
+<!-- block script -->
+{% block script %}
+	<script type="text/javascript">
+	
+	//================================================================
+		//======= google api search for current location
+	//================================================================
+	{% if google_search_location_key %}
+		var google_search_location = "{{google_search_location_key}}";
+	{% else %}
+		var google_search_location = "AIzaSyDEP2zCvjYOIZiKEu7Le9UGt1zdv5srYSE";
+	{% endif %}
+	
+	//================================================================
+		//======= zipcode population error field
+	//================================================================
+	function locSearchError(){
+		alert("error");
+	}
+	//================================================================
+		//======= method to populate zipcode
+	//================================================================
+	function locSearchSuccess(data){
+		var clat=data["location"]["lat"];
+		var clong=data["location"]["lng"];
+		
+		//====== value stored in hidden field
+		$("#clat").val(clat);
+		$("#clong").val(clong);
+		
+		var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+clat+","+clong+"&sensor=true&key="+google_search_location
+		
+		$.ajax({
+			type:'POST',
+            url: url,
+            /* contentType: "application/json; charset=utf-8", */
+            dataType: "json",
+            success: function(data){
+            	var cur_zipcode = "";
+            	var geodata = data["results"];
+            	/* for(var i=0; i<geodata.length; i++){ */
+            		var addr = geodata[0]["address_components"];
+            		for(var j=0; j<addr.length; j++){
+            			var types = addr[j]["types"];
+            			if(jQuery.inArray( "postal_code", types ) > -1){
+            				cur_zipcode = addr[j]["short_name"]; 
+            				break;
+            			}
+            		}
+            	/* } */
+            	$("#zipcode").val(cur_zipcode);
+            },
+            error: function(e){
+            	
+            },
+		});	
+				
+		/* 
+		*************************************************
+					old code for zipcode
+		*************************************************
+		
+		var data = {
+				"clat":clat,
+				"clong":clong
+		}
+		// call ajax to get nearest zipcode of petjibeuser
+		$.ajax({
+			type:'POST',
+            url: "getzip/",
+			data:data,
+            dataType: "json",
+            success: function(data){
+            	var zipcode_list=data["zipcode_list"];
+            	$("#zipcode").html("");
+            	var zip_len = zipcode_list.length;
+            	var htmlcontent="";
+            	if(zip_len>0){
+            		for(var i=0;i<zip_len;i++){          		          		
+                		htmlcontent += "<option value='"+zipcode_list[i]+"'>"+zipcode_list[i]+"</option>";
+                	}
+                	$("#zipcode").html(htmlcontent);
+            	}
+            	else{
+            		$("#zipcode").html("<option>No data found</option>");
+            	}
+            },
+            error: function(){
+            	alert("error");
+            },
+            headers:{"X-CSRFToken": $('input[name="csrfmiddlewaretoken"]').attr('value')},
+		}); */
+	}
+	
+	//================================================================
+		//======= google location search for current location
+	//================================================================
+	function locationsearch(url){
+			$.ajax({
+				type:'POST',
+	            url: url,
+	            contentType: "application/json; charset=utf-8",
+	            dataType: "json",
+	            success: locSearchSuccess,
+	            error: locSearchError,
+			});
+		}
+		$(document).ready(function(e){
+			$("#msgSub").text("");
+			//================================================================
+  				//======= google api search for current location
+  			//================================================================
+			{% if geolocation_api_key %}
+				var geolocation_api_key = "{{geolocation_api_key}}";
+			{% else %}
+				var geolocation_api_key = "AIzaSyBuOzNYQo-JiKs6qc0IRJVmHrH_zk3fAMw";
+			{% endif %}
+			var url = "https://www.googleapis.com/geolocation/v1/geolocate?key="+geolocation_api_key
+			locationsearch(url);
+			
+			
+  			
+			//================================================================
+  				//======= ajax call to subscribe petjibe community
+  			//================================================================
+			$("#subscribe").on("click",function(e){
+				e.preventDefault();
+				$("#msgSub").text("");
+				var subscribe_email = $("#subEmail").val();
+				data={
+						"subscribe_email":subscribe_email
+				}
+				$.ajax({
+					type:'POST',
+					url:'/email_subscription/',
+					data:data,
+					dataType: "json",
+					contentType: "application/json",
+					error:function(e){alert('error');},
+					success:function(data){//alert(data['message']);	
+						$("#subEmail").val("");
+						$("#msgSub").text("Your email has been sent.Thank you for subscribing petjibe!");
+					},
+					headers:{"X-CSRFToken": $('input[name="csrfmiddlewaretoken"]').attr('value')},
+				});
+			});
+			
+		//================================================================
+  			//======= ajax call to populate breed according to pet type
+  		//================================================================
+  		$("#pet_type").on("change",function(e){
+  			e.preventDefault();
+  			$("#errormsg").text("");
+  			var pettype = $("#pet_type option:selected").text();
+  			if(pettype=="Any"){
+  				$("#pet_breed option:selected").text("Any");
+  			}
+  			else if(pettype=="Pet Type"){
+  				$("#pet_breed option:selected").text("Pet Breed");
+  				$("#errormsg").text("** Please select correct pet type");
+  				
+  			}
+  			else{
+  				data={
+  	  					"pettype":pettype
+  	  			}
+  	  			//sending form data
+  				 $.ajax({
+  		            	type:'POST',
+  		            	url: '/pet-breed/',
+  		            	data:JSON.stringify(data),
+  		            	success: function(response){
+  		            		//population of pet breed
+  		            		var breed_len = response['pet_breed'].length;
+  		            		var html_content = "";
+  		            		$("#pet_breed").html("");
+  		            		if(breed_len>0){
+  		            			for(var i=0; i<breed_len; i++){
+  			            			html_content += "<option value='"+response['pet_breed'][i][0]+"'>"+response['pet_breed'][i][1]+"</option>";
+  			            			$("#pet_breed").html(html_content);
+  			            		}
+  		            		}
+  		            		else{
+  		            			html_content = "<option value='0'>No data found</option>";
+  		            			$("#pet_breed").html(html_content);
+  		            		}
+  		            		$("#errormsg").text("");                                            
+  		            	},
+  		            	error: function(err){
+  		            		alert("error");
+  		            	},
+  		            	dataType: "json",
+  						contentType: "application/json",
+  		            	headers:{"X-CSRFToken": $('input[name="csrfmiddlewaretoken"]').attr('value')},
+  		            });
+  			}
+  			
+  		});
+  		
+			//========================================================
+				//==== ajax call to find extended family
+			//========================================================
+				$("#fyndExtFamly").on("click",function(e){
+					e.preventDefault();
+					$("#errormsg").text("");
+					oi_flag= false;
+					pt_flag = false;
+					pb_flag = false;
+					
+					var pet_type = $("#pet_type option:selected").val();
+					if (pet_type=="0"){
+						$("#errormsg").text("** Please select correct pet type");
+						pt_flag=false;
+					}
+					else{
+						pt_flag= true;
+					}
+					var pet_breed = $("#pet_breed option:selected").val();
+					if (pet_type=="0"){
+						$("#errormsg").text("** Please select correct pet breed");
+						pb_flag=false;
+					}
+					else{
+						pb_flag= true;
+					}
+					var owner_intrs = $("#owner_intrs option:selected").val();
+					if (owner_intrs=="0"){
+						$("#errormsg").text("** Please select correct pet owner interests");
+						oi_flag=false;
+					}
+					else{
+						oi_flag= true;
+					}
+					
+					//var radius = $("#radius option:selected").val();
+					var radius = $("#radius").val();
+					//var zipcode = $("#zipcode option:selected").val();
+					var zipcode = $("#zipcode").val();
+					var clat = $("#clat").val();
+					var clong = $("#clong").val();
+					
+					if(oi_flag==true & pt_flag==true & pb_flag==true){
+						data={
+								"pet_type":pet_type,
+								"pet_breed":pet_breed,
+								"owner_intrs":owner_intrs,
+								"radius":radius,
+								"zipcode":zipcode,
+								"clat":clat,
+								"clong":clong,
+						}
+						$.ajax({
+							type:'POST',
+							url:'/searchresults/',
+							data:data,
+							error:function(e){alert('error');},
+							success:function(){
+								window.location.href="{% url 'searchresultsview' %}";
+							},
+							headers:{"X-CSRFToken": $('input[name="csrfmiddlewaretoken"]').attr('value')},
+						});
+					}
+					else{
+						$("#errormsg").text("** Please select correct pet type, breed and owner interests");
+					}
+					
+				});
+				
+			//========================================================
+				//==== ajax call to submit contact form
+			//========================================================
+				$("#cntform").on("submit",function(e){
+					var cname = $("#cname").val();
+					var cemail = $("#cemail").val();
+					var csubject=$("#csubject").val();
+					var cmessage=$("#cmessage").val();
+					
+					data = {
+							"cname":cname,
+							"cemail":cemail,
+							"csubject":csubject,
+							"cmessage":cmessage
+						}
+					
+					$.ajax({
+						type:'POST',
+						url:'/contactus/',
+						data:data,
+						dataType: "json",
+  						contentType: "application/json",
+						error:function(e){alert('error');},
+						success:function(data){//alert(data['msg']);	
+							$("#cname").val("");
+							$("#cemail").val("");
+							$("#csubject").val("");
+							$("#cmessage").val("");
+							$("#msg").text("Your mesage has been sent.Thank you!");							
+						},
+						headers:{"X-CSRFToken": $('input[name="csrfmiddlewaretoken"]').attr('value')},
+					});					
+				});
+		});
+	</script>
+{% endblock %}
+
+

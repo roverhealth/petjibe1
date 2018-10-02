@@ -1,0 +1,401 @@
+{% extends "base_other.html" %}
+{% load staticfiles %}
+
+	
+<!-- main block part starts here -->	
+{% block main %}
+
+<section>
+<div class="container layout">
+<div style=" max-width: 960px;
+    margin: 30px auto;
+    padding: 20px;">
+<div class="avatar-upload">
+        <div class="avatar-edit">
+            <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+            <label for="imageUpload"></label>
+        </div>
+        <div class="avatar-preview">
+            <div id="imagePreview" style="background-image: url(/media/profile_images/{{ pic }});">
+            </div>
+        </div>
+</div></div>
+<hr>
+      <form>
+      {% csrf_token %}
+        <fieldset>
+          <label class="col-md-5">First Name 
+          {% if firstname %}
+          	<input type="text" name="firstname" id="firstname" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px; position: absolute;right: 0;" class="regwidth" value="{{firstname}}">
+          {% else %}
+          	<input type="text" name="firstname" id="firstname" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px; position: absolute;right: 0;">
+          {% endif %}
+          </label>
+          <label class="col-md-5">Last Name 
+          {% if lastname %}
+          	<input type="text" name="lastname" id="lastname" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;" class="regwidth" value="{{lastname}}">
+          {% else %}
+          	<input type="text" name="lastname" id="lastname" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;">
+          {% endif %}
+          </label><br>
+          <label class="col-md-5">Address 1
+          {% if address1 %} 
+          	<input type="text" name="address1" id="address1" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;" class="regwidth" value="{{address1}}"></label>
+          {% else %}
+          	<input type="text" name="address1" id="address1" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;"></label>
+          {% endif %}
+          <label class="col-md-5">Address 2 
+          {% if address2 %}
+          	<input type="text" name="address2" id="address2" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;"class="regwidth"  value="{{address2}}">
+          {% else %}
+          	<input type="text" name="address2" id="address2" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;">
+          {% endif %}	
+          </label><br>
+          <label class="col-md-5">City 
+          {% if address2 %}
+          	<input type="text" name="city" id="city" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position:absolute;right: 0;" class="regwidth" value="{{city}}">
+          {% else %}
+          	<input type="text" name="city" id="city" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position:absolute;right: 0;">
+          {% endif %}
+          </label>
+          <label class="col-md-5">State 
+          	<!-- <input type="text" name="state" id="state" style="border-color:#fb8f01;border-radius: 3px;border-width:1px;position:absolute;right: 0;"> -->
+          	{% ifequal state_flag True %}
+          	<select id="state" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;" class="regwidth">
+          		
+          		{% if state_list %}
+          		{% for state in state_list %}
+          		{% ifequal state.0 state_code %}
+          			<option value="{{state.0}}" selected>{{state.1}}</option>
+          		{% else %}
+          			<option value="{{state.0}}">{{state.1}}</option>
+          		{% endifequal %}
+          		{% endfor %}
+          		{% endif %}     
+          		<option value="other">Other State</option>    		
+          	</select>
+          	{% else %}
+          		<input type="text" name="otherstate" id="otherstate" value="{{otherstate}}" class="regwidth" style="border-color:#fb8f01;border-radius:3px; border-width: 1px;position: absolute;right: 0;">
+          	{% endifequal %}
+          	
+          	{% ifequal state_flag False %}
+          		<input type="text" name="otherstate" id="otherstate" value="" class="regwidth" style="border-color:#fb8f01;border-radius:3px; border-width: 1px;position: absolute;right: 0;display:None;">
+          	{% else %}
+          		<input type="text" name="otherstate" id="otherstate" value="{{otherstate}}" class="regwidth" style="border-color:#fb8f01;border-radius:3px; border-width: 1px;position: absolute;right: 0;display:None;'">
+          	{% endifequal %}	
+          </label><br>
+          <label class="col-md-5">Country 
+          	<!-- <input type="dropdown" name="country" id="country" style="border-color: #fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;"> -->
+          	<select id="country" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;" class="regwidth">
+          		{% if country_list %}
+          		{% for country in country_list %}
+          		{% ifequal country.0 country_code %}
+          			<option value="{{country.0}}" selected>{{country.1}}</option>
+          		{% else %}
+          			<option value="{{country.0}}">{{country.1}}</option>
+          		{% endifequal %}
+          		{% endfor %}
+          		{% endif %}         		
+          	</select>
+          </label>
+          <label class="col-md-5">Phone 
+          	{% if phone %}
+          	<input type="text" name="phone" id="phone" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position:absolute;right: 0;" class="regwidth" value="{{phone}}">
+          	{% else %}
+          	<input type="text" name="phone" id="phone" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position:absolute;right: 0;"class="regwidth">
+          	{% endif %} 
+          </label>
+          <label class="col-md-5">Email 
+          {% if otheremail %}
+          	<input type="text" name="email" id="email" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;" class="regwidth" value="{{otheremail}}">
+          {% else %}
+          	<input type="text" name="email" id="email" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;" class="regwidth" >
+          {% endif %} 
+          </label>
+          <!-- <label class="col-md-5">Password 
+			<input type="password" name="password" id="password" style="border-color:#fb8f01;border-radius: 3px; border-width: 1px;position: absolute;right: 0;">
+          
+          </label> -->
+          <br><br>
+           <!-- <input type=button onClick="{% url 'petRegisterPage' %}" value='Add a Pet' style="background-color: #fb8f01;border: 0px;border-radius: 3px;color: #fff;padding: 3px 15px;"><br><br> -->
+			<a href="{% url 'petRegisterPage' %}" style="background-color: #fb8f01;border: 0px;border-radius: 3px;color: #fff;padding: 3px 15px;">Add a Pet<a><br><br>
+			{% if own_pet %}
+			{% ifequal own_pet True %}
+          		<input type = "checkbox" name = "ownpet" id="ownpet" value ="{{own_pet}}" checked>
+          	{% else %}
+          		<input type = "checkbox" name = "ownpet" id="ownpet" value ="{{own_pet}}" >
+          	{% endifequal %}
+          	{% else %}
+          		<input type = "checkbox" name = "ownpet" id="ownpet" value = "on">
+          	{% endif %}
+          	<label>&nbsp; Own Pet(s)</label><br></label><br>
+          {% if interest_list %}
+          {% for interest in interest_list %}
+           <div class=" col-md-3" style="padding: 0px; display: inline-block;">
+          <input type = "checkbox" name = "interestchk" id="{{interest.0}}" value = "{{interest.0}}" checked>          
+          <label >{{interest.1}}</label></div>
+          {% endfor %}
+          {% endif %}
+          {% if rest_interest_ids %}
+          {% for interest in rest_interest_ids %}	
+           <div class=" col-md-3" style="padding: 0px; display: inline-block;">
+          <input type = "checkbox" name = "interestchk" id="{{interest.0}}" value = "{{interest.0}}">  
+          <label> {{interest.1}}</label></div>
+          {% endfor %}
+          {% else %}
+           <div class=" col-md-3" style="padding: 0px; display: inline-block;">
+          	<input type = "checkbox" name = "interestchk" id="0" value = "none">  
+             <label >No Data Found</label></div><br>
+          {% endif %} 
+
+          <br>
+           <div class=" col-md-6" style="padding: 0px; display: inline-block;">
+          <label>Comment 
+          {% if interest_list %}
+          <input class="int-text" type="text" name="comment" id="comment" value="{{comment}}" style=" border-color: #fb8f01;border-radius: 3px;border-width: 1px;font-size: smaller; padding: 5px;"size="40"></label>
+          {% else %}
+          <input class="int-text" type="text" name="comment" id="comment" style=" border-color: #fb8f01;border-radius: 3px;border-width: 1px;font-size: smaller; padding: 5px;"size="40"></label>
+          {% endif %} 
+           </div><br>
+           <input type="button" id="update" value="Update" style="background-color: #fb8f01;border: 0px;border-radius: 3px;color: #fff;padding: 3px 15px;">
+
+        </fieldset>
+      </form>
+      </div>
+  
+    </section>        
+
+{% endblock %}
+<!-- end here -->
+ 
+<!-- block script -->
+{% block script %}
+
+	<script>
+		$(document).ready(function(e){
+			//================================================================
+			//======= method to populate other state input
+		//================================================================
+			$("#state").on("change",function(e){
+				var state_code = $("#state option:selected").val();
+				if(state_code=="other"){
+					$("#otherstate").show();
+				}
+				else{
+					$("#otherstate").hide();
+				}
+			});
+			//================================================================
+			//======= ajax call to populate states according to country
+		//================================================================
+		$("#country").on("change",function(e){
+			e.preventDefault();
+			var country_code = $("#country option:selected").val();
+			data={
+					"country_code":country_code
+			}
+			//sending form data
+		 $.ajax({
+            	type:'POST',
+            	url: '/getStates/',
+            	data:JSON.stringify(data),
+            	success: function(response){
+            		$("#otherstate").hide();
+            		//data population of states
+            		var state_list_len = response['state_list'].length;
+            		var html_content = "";
+            		$("#state").html("");
+            		if(state_list_len>0){
+            			for(var i=0; i<state_list_len; i++){
+	            			html_content += "<option value='"+response['state_list'][i][0]+"'>"+response['state_list'][i][1]+"</option>";
+	            			$("#state").html(html_content);
+	            		}
+            		}
+            		else{
+            			//html_content = "<option value='0'>No data found</option>";
+            			//$("#state").html(html_content);
+            			$("#state").hide();
+            			$("#otherstate").show();
+            		}
+            		                                            
+            	},
+            	error: function(err){
+            		alert("error");
+            	},
+            	dataType: "json",
+				contentType: "application/json",
+            	headers:{"X-CSRFToken": $('input[name="csrfmiddlewaretoken"]').attr('value')},
+            });
+		});
+		
+			
+			var interest_chk_list=[];
+			$('input[name=interestchk]:checked').each(function(index){
+				interest_chk_list.push($(this).val());				
+			});
+			$('input[name=interestchk]').on("change",function(e){
+				if($('input[name=interestchk]:checked').val()!=undefined){
+					var interest_chk = $(this).val();
+					interest_chk_list.push(interest_chk);
+				}
+				else{
+					var interest_chk = $('input[name=interestchk]').val();
+					interest_chk_list.pop(interest_chk);
+				}
+			});
+			
+			//================================================================
+			//======= ajax call to submit user registration data update
+		//================================================================
+			$("#update").on("click",function(e){
+				e.preventDefault();		
+				var country_code = $("#country option:selected").val();
+				var state_code = $("#state option:selected").val();		
+				var firstname = $("#firstname").val();
+				var lastname = $("#lastname").val();
+				var address1 = $("#address1").val();
+				var address2 = $("#address2").val();
+				var city = $("#city").val();
+				var comment = $("#comment").val();
+				var email = $("#email").val();
+				var phone = $("#phone").val();
+				var otherstate = $("#otherstate").val();
+				if($("#ownpet:checked")){
+					var own_pet = $("#ownpet:checked").val();
+				}
+				else{
+					var own_pet = "off";
+				}
+				
+				data={
+						"interest_chk_list":interest_chk_list,
+						"country_code":country_code,
+						"state_code":state_code,
+						"firstname":firstname,
+						"lastname":lastname,
+						"address1":address1,
+						"address2":address2,
+						"city":city,
+						"comment":comment,
+						"email":email,
+						"phone":phone,
+						"own_pet":own_pet,
+						"otherstate":otherstate
+				}
+				//sending form data
+			 $.ajax({
+		        	type:'POST',
+		        	url: '/ownerRegistrationSubmit/',
+		        	data:JSON.stringify(data),
+		        	success: function(response){
+			             //alert("success");    
+			             $("#otherstate").hide();
+			             window.location.href="{% url 'ownerProfile' %}";
+		        	},
+		        	error: function(err){
+		        		alert("error");
+		        		$("#otherstate").hide();
+		        	},
+		        	dataType: "json",
+					contentType: "application/json",
+		        	headers:{"X-CSRFToken": $('input[name="csrfmiddlewaretoken"]').attr('value')},
+		        });
+			});
+		});
+		function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+            $('#imagePreview').hide();
+            $('#imagePreview').fadeIn(650);
+        }
+        reader.readAsDataURL(input.files[0]);
+         var form_data = new FormData();
+        form_data.append('file', input.files[0]);
+        form_data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        $.ajax({
+            url:'/upload_profile_pic/',
+            type:'POST',
+            data:form_data,
+             processData: false,
+                contentType: false,
+            success:function (data) {
+                
+            },
+            error:function (err) {
+                
+            }
+        })
+    }
+}
+$("#imageUpload").change(function() {
+    readURL(this);
+});
+	</script>
+    <style>
+
+.avatar-upload {
+  position: relative;
+  max-width: 205px;
+  margin: 50px auto;
+}
+.avatar-upload .avatar-edit {
+  position: absolute;
+  right: 12px;
+  z-index: 1;
+  top: 10px;
+}
+.avatar-upload .avatar-edit input {
+  display: none;
+}
+.avatar-upload .avatar-edit input + label {
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 0;
+  border-radius: 100%;
+  background: #FFFFFF;
+  border: 1px solid transparent;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  font-weight: normal;
+  transition: all 0.2s ease-in-out;
+}
+.avatar-upload .avatar-edit input + label:hover {
+  background: #f1f1f1;
+  border-color: #d6d6d6;
+}
+.avatar-upload .avatar-edit input + label:after {
+  content: "\f040";
+  font-family: 'FontAwesome';
+  color: #757575;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: auto;
+}
+.avatar-upload .avatar-preview {
+  width: 192px;
+  height: 192px;
+  position: relative;
+  border-radius: 100%;
+  border: 6px solid #F8F8F8;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+}
+.avatar-upload .avatar-preview > div {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+    </style>
+{% endblock %}
+
+

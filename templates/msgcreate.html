@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+<!-- main block part starts here -->	
+{% block main %}
+
+<section>
+	<div class="container layout col-lg-10">
+      <div class="row">
+      	<h2>New Message</h2>
+      </div>
+      
+      <div class="row">
+      {% csrf_token %}
+      	<div class="col-md-5">
+      	{% if user_list %}
+      	{% for oneuser in user_list %}
+      		<div class="userlist" data-email="{{oneuser.0}}">{{oneuser.1}}</div><br>
+      	{% endfor %}
+      	{% endif %}
+      	</div>
+      	<div class="col-md-7">
+      		<label>To </label>
+      		<input type="text" name="to_user" id="to_user" placeholder="To recipients" value="" readonly />
+      		<label>Subject</label>
+      		<input type="text" name="subject" id="subject" placeholder="Write your subject" value="" />
+      		<label>Message</label>
+      		<textarea name="content" id="content" placeholder="Write message here " ></textarea>
+      		<button id="sendmsg">Send Message</button>
+      		<button id="reset">Reset</button>
+      		<p id="output"></p>
+      	</div>
+      </div>
+      
+   </div>   
+</section>        
+
+{% endblock %} 
+
+{% block script %}
+<script type="text/javascript">
+$(document).ready(function(e){
+	//==================================
+	//	user selection functionality
+	//==================================
+		$(".userlist").on("click",function(e){
+			var u_email = $(this).attr("data-email");
+			$("#to_user").val("");
+			$("#to_user").val(u_email);
+			
+		});
+	
+	//==================================
+	//	reset button functionality
+	//==================================
+		$("#reset").on("click",function(e){
+			$("#to_user").val("");
+			$("#subject").val("");
+			$("#content").text("");
+		});
+	//==================================
+	//	sendmsg button functionality
+	//==================================
+		$("#sendmsg").on("click",function(e){
+			var to_user=$("#to_user").val();
+			var subject=$("#subject").val();
+			var content=$("#content").val();
+			var data = {
+					"to_user":to_user,
+					"subject":subject,
+					"content":content,
+			}
+			$.ajax({
+				type:"POST",
+				url:"/createmsgthread/",
+				data:JSON.stringify(data),
+				error:function(e){
+					alert(e);
+				},
+				success:function(response){
+					alert(response);
+					if(response["msg"]=="sent"){
+						$("#output").text("Message sent");
+						window.location.href = "{% url 'allmsgs' %}";
+					}
+					else{
+						$("#output").text("Message could not sent. Please try again later.");
+					}
+						
+				},
+				dataType:"json",
+				contentType:"application/json",
+				headers : {"X-CSRFToken":$("input[name='csrfmiddlewaretoken']").attr("value")},
+			});
+		}); 
+		
+		
+});
+</script>
+
+{% endblock %}
+
