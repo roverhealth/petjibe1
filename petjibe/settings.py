@@ -147,22 +147,22 @@ LOGIN_URL='/'
 LOGIN_REDIRECT_URL="/index/"
 
 #============ Social account credentials ============
-SOCIAL_AUTH_FACEBOOK_KEY = '180750465762639'  # App ID
-SOCIAL_AUTH_FACEBOOK_SECRET ='9a361d62e0b15425ccece693d9ba848c' # App Secret 
+SOCIAL_AUTH_FACEBOOK_KEY = '2081478572074706'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET ='7305091c93e1ae2f58e8719d8130099b' # App Secret 
 
 #============ Google account credentials ============
-GOOGLE_SEARCH_LOCATION = "AIzaSyCzKwjlM_GJxxi_ZvMMCLxMgn-A7pnz7yY"
-GOOGLE_GEOLOCATION_KEY = "AIzaSyCzKwjlM_GJxxi_ZvMMCLxMgn-A7pnz7yY"
+GOOGLE_SEARCH_LOCATION = ""
+GOOGLE_GEOLOCATION_KEY = ""
 
 #========== email settings ===================
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = False
 EMAIL_HOST = 'smtpout.europe.secureserver.net'
-EMAIL_HOST_USER = 'hello@wiftcap.com'
+EMAIL_HOST_USER = 'DoNotReply@petjibe.com'
 #CONTACT_EMAIL = 'connect@petjibe.com'
-CONTACT_EMAIL = 'suchetachatterjee2018@gmail.com'
+CONTACT_EMAIL = 'DoNotReply@petjibe.com'
 #Must generate specific password for your app in [gmail settings][1]
-EMAIL_HOST_PASSWORD = 'wcspl2018#'
+EMAIL_HOST_PASSWORD = 'Naper60564'
 EMAIL_PORT = 80
 #This did the trick
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
